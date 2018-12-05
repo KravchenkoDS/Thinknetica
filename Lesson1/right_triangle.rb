@@ -1,14 +1,13 @@
 sides = []
 def right_triangle(sides)
-  return "Треугольник равносторонний, но не является прямоугольным." if sides.uniq.length == 1
+  a, b, c = sides.sort # Порядок ввода может быть произвольным, сортировка значений
+  return "Треугольник равносторонний, но не является прямоугольным." if a = c
 
-  a, b, c = sides.sort # Порядок ввода межет быть произвольным.
+  exponentiation_comparasion_a_b_c = a**2 + b**2 == c**2
 
-  compExp = a**2 + b**2 == c**2
-
-  if a == b && compExp
+  if a == b && exponentiation_comparasion_a_b_c
     "Треугольник является прямоугольным и равнобедренным."
-  elsif a**2 + b**2 == c**2
+  elsif exponentiation_comparasion_a_b_c
     "Треугольник является прямоугольным."
   else
     "Треугольник не является прямоугольным."
