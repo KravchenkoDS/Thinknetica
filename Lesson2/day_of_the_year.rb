@@ -8,12 +8,12 @@ def days_in_february(year)
   end
 end
 
-puts "Введите число: "
+puts "Пожалуйста, введите число: "
 day = gets.to_i
-puts "Введите номер месяца: "
+puts "Пожалуйста, введите номер месяца: "
 month = gets.to_i
-puts "Введите год: "
+puts "Пожалуйста, введите год: "
 year = gets.to_i
 
-days_in_month = [31, days_in_february(year), 30, 31, 30, 31, 30, 31, 30, 31, 30] # Количество дней в декабре не имеет значения
+days_in_month = [31, days_in_february(year), 30, 31, 30, 31, 30, 31, 30, 31, 30] # Декабрь - не имеет значения
 puts days_in_month.first(month - 1).sum(day)

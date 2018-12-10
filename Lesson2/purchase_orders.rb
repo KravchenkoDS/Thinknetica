@@ -1,12 +1,12 @@
 cart = {}
 final_price = 0
 loop do
-  puts "Введите название товара: "
+  puts "Пожалуйста, введите название товара: "
   name = gets.chomp
   break if name == "стоп"
-  puts "Введите цену за единицу товара: "
+  puts "Пожалуйста, введите цену за единицу товара: "
   price = gets.to_f
-  puts "Введите количество купленного товара"
+  puts "Пожалуйста, введите количество купленного товара"
   amount = gets.to_f
   cart[name] = { price: price, amount: amount }
 end
