@@ -18,4 +18,3 @@ class Station
     trains.select{ |train| train.type == type }
   end
 end
-
