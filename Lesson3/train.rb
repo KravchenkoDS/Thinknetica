@@ -17,7 +17,7 @@ class Train
   end
 
   def next_station
-    route.stations[@current_station_index + 1] unless @current_station_index == route.stations.size - 1
+    route.stations[@current_station_index + 1]
   end
 
   def increase_speed(speed)
@@ -25,8 +25,11 @@ class Train
   end
 
   def decrease_speed(speed)
-    @speed -= speed
-    @speed = 0 if @speed - speed < 0
+    if @speed - speed < 0
+      @speed  = 0
+    else
+      @speed -= speed
+    end
   end
 
   def stop
