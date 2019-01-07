@@ -38,12 +38,14 @@ class Train
 #    # в массиве с аналогичном названием в MainMenu.
 #    @wagons.reject! { |wagon| wagon.manufacturer == manufacturer }
 #  end
+
   def remove_wagon(wagon)
     # Удаление только из массива @wagons для поезда, вагон продолжает существовать
     # в массиве с аналогичном названием в MainMenu.
-    @wagons.delete(wagon)
+    # Нумерация вагонов для человека 1-2-3 и т.д.
+    @wagons.delete(wagon - 1) if @wagons.include?(@wagons[wagon.to_i - 1])
   end
-#
+
   def set_route(route)
     @route = route
     @current_station_index = 0

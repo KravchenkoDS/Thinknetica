@@ -188,9 +188,11 @@ class MainMenu
         @wagons << wagon
         trains_menu
       when "2"
-        enter_manufacturer_name_message
-        manufacturer = gets.chomp
-        train.remove_wagon(manufacturer)
+        # enter_manufacturer_name_message
+        enter_number_wagon_message
+        # manufacturer = gets.chomp
+        wagon = gets.chomp
+        train.remove_wagon(wagon)
         trains_menu
       when "3"
         trains_menu
@@ -239,7 +241,7 @@ class MainMenu
         print "Такая станция существует, введите другое значение: "
       else
         @stations << Station.new(name)
-          station_created_message
+          station_created_message(name)
         break
       end
     end
@@ -326,6 +328,16 @@ class MainMenu
   def train_exist?(number)
     !!@trains.detect { |train| train.number == number }
   end
+
+=begin
+  def trains_list
+    numbers = []
+    @trains.each do |train|
+      numbers << train.number
+    end
+    puts numbers.join(", ")
+  end
+=end
 
   def trains_list
     numbers = []
@@ -443,6 +455,10 @@ class MainMenu
     puts "Введите название производителя: "
   end
 
+  def enter_number_wagon_message
+    puts "Введите номер вагона поезда: "
+  end
+
   def select_train_from_list_message
     puts "Введите номер поезда из списка:"
     trains_list
@@ -453,7 +469,7 @@ class MainMenu
     puts "Поезд #{number} успешно создан."
   end
 
-  def station_created_message
+  def station_created_message(name)
     blank_line
     puts "Станция #{name} успешно создана."
   end
