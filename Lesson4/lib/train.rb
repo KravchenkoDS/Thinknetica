@@ -24,26 +24,14 @@ class Train
     @speed = 0
   end
 
-#  Исправление замечания
-#  def add_wagon(wagon)
-#    @wagons << wagon if type == wagon.type
-#  end
-
   def add_wagon(wagon)
     @wagons << wagon if attachable_wagon?(wagon)
   end
 
-#  def remove_wagon(manufacturer)
-#    # Удаление только из массива @wagons для поезда, вагон продолжает существовать
-#    # в массиве с аналогичном названием в MainMenu.
-#    @wagons.reject! { |wagon| wagon.manufacturer == manufacturer }
-#  end
-
-  def remove_wagon(wagon)
+  def remove_wagon(remove_wagon)
     # Удаление только из массива @wagons для поезда, вагон продолжает существовать
     # в массиве с аналогичном названием в MainMenu.
-    # Нумерация вагонов для человека 1-2-3 и т.д.
-    @wagons.delete(wagon - 1) if @wagons.include?(@wagons[wagon.to_i - 1])
+    @wagons.reject! { |wagon| wagon.manufacturer == remove_wagon }
   end
 
   def set_route(route)

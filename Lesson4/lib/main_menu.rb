@@ -6,7 +6,7 @@ require_relative 'passenger_train.rb'
 require_relative 'cargo_train.rb'
 require_relative 'passenger_wagon.rb'
 require_relative 'cargo_wagon.rb'
-
+require_relative 'menu_items.rb'
 
 class MainMenu
   def initialize
@@ -17,20 +17,19 @@ class MainMenu
   end
 
   def show_menu
-    choices_list("управление станциями", "управление поездами", "управление вагонами", "управление маршрутами", true)
+    choices_list(SHOW_MENU_LIST, true)
     input = gets.chomp
-
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         stations_menu
-      when "2"
+      when 2
         trains_menu
-      when "3"
+      when 3
         wagons_menu
-      when "4"
+      when 4
         create_route_menu
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -43,24 +42,21 @@ class MainMenu
 
   def stations_menu
     stations_menu_intro
-    choices_list(
-      "создание станции", "список станций", "перейти к управлению поездами",
-      "вернуться в корневое меню", true
-    )
+    choices_list(STATIONS_MENU_LIST, true)
     input = gets.chomp
-
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         create_station
-      when "2"
+      when 2
         stations_list
-        stations_menu
-      when "3"
-        trains_menu
-      when "4"
+        # stations_menu #рекурсивный вызов
         show_menu
-      when "выход"
+      when 3
+        trains_menu
+      when 4
+        show_menu
+      when EXIT
         exit
       else
         enter_another_value
@@ -71,27 +67,23 @@ class MainMenu
 
   def trains_menu
     trains_menu_intro
-    choices_list(
-      "создать новый поезд", "перейти к управлению станциями", "назначить маршрут поезду",
-      "управление вагонами", "переместить поезд по маршруту", "открыть список станций и поездов",
-      true
-    )
+    choices_list(TRAINS_MENU_LIST, true)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         create_train
-      when "2"
+      when 2
         stations_menu
-      when "3"
+      when 3
         routes_menu
-      when "4"
+      when 4
         wagons_menu_for_train
-      when "5"
+      when 5
         move_train_menu
-      when "6"
+      when 6
         stations_and_trains
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -103,27 +95,25 @@ class MainMenu
   # Для вызова из меню поездов
   def routes_menu
     if @trains.empty?
-      puts "Сначало создайте поезд."
+      puts CREATE_STATIONS_MESSAGE # 'Сначало создайте поезд.'
       create_train
     end
     if @stations.length < 2
-      puts "Сначало создайте как минимум две станции."
+      puts CREATE_STATIONS_MESSAGE # 'Сначало создайте как минимум две станции.'
       create_station
     end
-
     select_train_from_list_message
     number = gets.chomp
     train = select_train(number)
-
     create_route_intro
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         stations_menu
-      when "2"
+      when 2
         create_route(train, true)
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -137,12 +127,12 @@ class MainMenu
     create_route_intro
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         stations_menu
-      when "2"
+      when 2
         create_route(false)
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -153,16 +143,16 @@ class MainMenu
 
   # Для вызова из корневого меню
   def wagons_menu
-    choices_list("создать новый вагон", "посмотреть производителей вагонов", true)
+    choices_list(WAGON_MENU_LIST, true)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         create_wagon
-      when "2"
+      when 2
         manufacturers_list
         break
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -176,25 +166,23 @@ class MainMenu
     select_train_from_list_message
     number = gets.chomp
     train = select_train(number)
-    choices_list("добавить вагон", "отцепить вагон", "вернуться к управлению поездами")
+    choices_list(WAGON_ADD_UNHOOK_MENU_LIST, BACK_TO_TRAIN_MANAGEMENT_MESSAGE)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         enter_manufacturer_name_message
         manufacturer = gets.chomp
         wagon = create_wagon_for_train(train, manufacturer)
         train.add_wagon(wagon)
-        @wagons << wagon
+        add_wagon(wagon)
         trains_menu
-      when "2"
-        # enter_manufacturer_name_message
+      when 2
         enter_number_wagon_message
-        # manufacturer = gets.chomp
         wagon = gets.chomp
         train.remove_wagon(wagon)
         trains_menu
-      when "3"
+      when 3
         trains_menu
       else
         enter_another_value
@@ -208,22 +196,19 @@ class MainMenu
     number = gets.chomp
     train = select_train(number)
     routes_menu if train.route.nil?
-    choices_list(
-      "отправить на следующую станцию", "отправить на предыдущую станцию",
-      "вернуться к управлению поездами", true
-    )
+    choices_list(MOVE_TRAIN_MENU_LIST, true)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         train.move_to_next_station
         move_train_menu
-      when "2"
+      when 2
         train.move_to_previous_station
         move_train_menu
-      when "3"
+      when 3
         trains_menu
-      when "выход"
+      when EXIT
         exit
       else
         enter_another_value
@@ -234,14 +219,14 @@ class MainMenu
 
   # Вспомогательные методы для станций:
   def create_station
-    print "Введите название новой станции: "
+    print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
     loop do
       name = gets.chomp
       if station_exist?(name)
-        print "Такая станция существует, введите другое значение: "
+        print STATION_EXISTS_MESSAGE # 'Такая станция существует, введите другое значение: '
       else
         @stations << Station.new(name)
-          station_created_message(name)
+        station_created_message(name)
         break
       end
     end
@@ -258,13 +243,13 @@ class MainMenu
       names << station.name
     end
     blank_line
-    puts names.join(", ")
+    puts names.join(', ')
   end
 
   def select_station(name)
     selected_stations = @stations.select { |station| station.name == name }
     if selected_stations.empty?
-      puts "Введите правильное имя станции и повторите попытку."
+      puts ENTER_CORRECTION_NAME_STATION_MESSAGE # 'Введите правильное имя станции и повторите попытку.'
       routes_menu
     else
       selected_stations.first
@@ -274,30 +259,30 @@ class MainMenu
   def stations_and_trains
     create_station if @stations.empty?
     create_train if @trains.empty?
-    puts "Список станций: "
+    puts STATIONS_LIST_MESSAGE # 'Список станций: '
     @stations.each do |station|
-      if station.trains.length > 0
+      if !station.trains.empty?
         trains = []
         station.trains.each do |train|
           trains << train.number
         end
-        puts "Станция #{station.name}, поезда: #{trains.join(", ")}"
+        puts "Станция #{station.name}, поезда: #{trains.join(', ')}"
       else
         puts "Станция #{station.name}"
       end
     end
-    puts "Общий список поездов:"
+    puts LIST_OF_TRAINS_MESSAGE # 'Общий список поездов:'
     trains_list
     trains_menu
   end
 
   # Вспомогательные методы для поездов:
   def create_train
-    print "Введите номер нового поезда: "
+    print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите номер нового поезда: '
     loop do
       number = gets.chomp
       if train_exist?(number)
-        print "Такой номер существует, введите другое значение: "
+        print ENTER_ANOTHER_NUMBER_MESSAGE # Такой номер существует, введите другое значение: '
       else
         create_train_by_type(number)
         train_created_message(number)
@@ -308,14 +293,14 @@ class MainMenu
   end
 
   def create_train_by_type(number)
-    choices_list("пассажирский поезд", "грузовой поезд", false)
+    choices_list(CREATE_TRAIN_BY_TYPE_MENU_LIST, false)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         @trains << PassengerTrain.new(number)
         break
-      when "2"
+      when 2
         @trains << CargoTrain.new(number)
         break
       else
@@ -329,28 +314,18 @@ class MainMenu
     !!@trains.detect { |train| train.number == number }
   end
 
-=begin
   def trains_list
     numbers = []
     @trains.each do |train|
       numbers << train.number
     end
-    puts numbers.join(", ")
-  end
-=end
-
-  def trains_list
-    numbers = []
-    @trains.each do |train|
-      numbers << train.number
-    end
-    puts numbers.join(", ")
+    puts numbers.join(', ')
   end
 
   def select_train(number)
     selected_trains = @trains.select { |train| train.number == number }
     if selected_trains.empty?
-      puts "Введите правильный номер поезда и повторите попытку."
+      puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE # 'Введите правильный номер поезда и повторите попытку.'
       routes_menu
     else
       selected_trains.first
@@ -361,31 +336,26 @@ class MainMenu
     # Количество входящих данных будет различаться в зависимости от места видимости метода.
     # При вызова из корня меню объект train не передаётся.
     route_for_train = args.last
-    print "Введите имя первой станции: "
-    input = gets.chomp
-    first_station = select_station(input)
-    print "Введите имя второй станции: "
-    input = gets.chomp
-    second_station = select_station(input)
+    first_station, second_station = name_first_and_second_stations()
     route = Route.new(first_station, second_station)
     loop do
-      puts "Добавить станцию маршрута?"
-      choices_list("да", "нет", false)
+      puts ADD_ROUTE_STATION # 'Добавить станцию маршрута?'
+      choices_list(YES_NO, false)
       input = gets.chomp
-      case input
-      when "1"
-        puts "Введите название станции: "
+      case input.to_i
+      when 1
+        puts ENTER_NAME_STATION # 'Введите название станции: '
         input = gets.chomp
         station = select_station(input)
         route.add_station(station)
-      when "2"
+      when 2
         if route_for_train
           train = args.first
           train.set_route(route)
-          @routes << route
+          add_route(route)
           trains_menu
         else
-          @routes << route
+          add_route(route)
           create_route_menu
         end
       else
@@ -403,14 +373,14 @@ class MainMenu
   def create_wagon
     enter_manufacturer_name_message
     manufacturer = gets.chomp
-    choices_list("создать пассажирский вагон", "создать грузовой вагон", false)
+    choices_list(CREATE_WAGON_MENU_LIST, false)
     input = gets.chomp
     loop do
-      case input
-      when "1"
+      case input.to_i
+      when 1
         @wagons << PassengerWagon.new(manufacturer)
         wagons_menu
-      when "2"
+      when 2
         @wagons << CargoWagon.new(manufacturer)
         wagons_menu
       else
@@ -426,70 +396,24 @@ class MainMenu
       manufacturers << wagon.manufacturer
     end
     blank_line
-    puts manufacturers.join(", ")
+    puts manufacturers.join(', ')
   end
 
-  # Вспомогательные методы инпута и аутпута
-  def enter_another_value
-    print "Введите другое значение: "
+  def add_wagon(wagon)
+    @wagons << wagon
   end
 
-  def create_route_intro
-    puts "Для составления маршрута доступны следующие станции:"
-    stations_list
-    puts "Вы хотите создать новую cтанцию или продолжить с текущими?"
-    choices_list("создать новую станцию", "продолжить с текущими", false)
+  def add_route(route)
+    @routes << route
   end
 
-  def stations_menu_intro
-    puts "==="
-    puts "Управление станциями:"
-  end
-
-  def trains_menu_intro
-    puts "==="
-    puts "Управление поездами:"
-  end
-
-  def enter_manufacturer_name_message
-    puts "Введите название производителя: "
-  end
-
-  def enter_number_wagon_message
-    puts "Введите номер вагона поезда: "
-  end
-
-  def select_train_from_list_message
-    puts "Введите номер поезда из списка:"
-    trains_list
-  end
-
-  def train_created_message(number)
-    blank_line
-    puts "Поезд #{number} успешно создан."
-  end
-
-  def station_created_message(name)
-    blank_line
-    puts "Станция #{name} успешно создана."
-  end
-
-  # Прочие вспомогательные методы:
-  def choices_list(*options, extra_lines)
-    puts "Введите:"
-    number = 1
-    options.each do |option|
-      puts "#{number} - #{option}"
-      number += 1
-    end
-    if extra_lines
-      puts "выход - для выхода из приложения"
-      print "> "
-    end
-  end
-
-  def blank_line
-    # Отступ для читаемости вывода данных
-    puts ""
+  def name_first_and_second_stations
+    print ENTER_NAME_FIRST_STATION # 'Введите имя первой станции: '
+    input = gets.chomp
+    first_station = select_station(input)
+    print ENTER_NAME_SECOND_STATION # 'Введите имя второй станции: '
+    input = gets.chomp
+    second_station = select_station(input)
+    [first_station, second_station]
   end
 end
