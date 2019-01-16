@@ -34,7 +34,6 @@ class MainMenu
       when EXIT then exit
       else enter_another_value
       end
-    end
   end
 
   private
@@ -321,10 +320,10 @@ class MainMenu
       case gets.to_i
       when 1
         @wagons << PassengerWagon.new(manufacturer)
-        wagons_menu
+        break
       when 2
         @wagons << CargoWagon.new(manufacturer)
-        #wagons_menu
+        break
       when 3 then break
       else
         enter_another_value
