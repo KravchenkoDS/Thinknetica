@@ -1,8 +1,8 @@
 class Wagon
-  attr_reader :manufacturer, :type
+  attr_reader :number, :type
 
-  def initialize(manufacturer, type)
-    @manufacturer = manufacturer
+  def initialize(number, type)
+    @number = number
     @type = type
   end
 end

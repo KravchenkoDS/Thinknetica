@@ -1,6 +1,6 @@
 class PassengerTrain < Train
-  def initialize(number)
-    super(number, :passenger)
+  def initialize(name)
+    super(name, :passenger)
   end
 
   #исправление замечания: проверка в наследнике возможности прицепить вагон

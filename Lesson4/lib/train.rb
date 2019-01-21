@@ -1,8 +1,8 @@
 class Train
-  attr_reader :type, :speed, :route, :wagons, :number
+  attr_reader :type, :speed, :route, :wagons, :name
 
-  def initialize(number, type)
-    @number = number
+  def initialize(name, type)
+    @name = name
     @type = type
     @speed = 0
     @wagons = []
@@ -31,7 +31,7 @@ class Train
   def remove_wagon(remove_wagon)
     # Удаление только из массива @wagons для поезда, вагон продолжает существовать
     # в массиве с аналогичном названием в MainMenu.
-    @wagons.reject! { |wagon| wagon.manufacturer == remove_wagon }
+    @wagons.reject! { |wagon| wagon.number == remove_wagon }
   end
 
   def set_route(route)

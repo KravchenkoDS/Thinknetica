@@ -2,7 +2,7 @@ module MenuItems
   SHOW_MENU_LIST = [
     'управление станциями',
     'управление поездами',
-    'управление вагонами',
+    #'управление вагонами',
     'управление маршрутами'
   ].freeze
 
@@ -16,28 +16,23 @@ module MenuItems
   TRAINS_MENU_LIST = [
     'создать новый поезд',
     #'перейти к управлению станциями',
-    'назначить маршрут поезду',
+    #'назначить маршрут поезду',
     'управление вагонами',
-    'переместить поезд по маршруту',
+    #'переместить поезд по маршруту',
     'открыть список станций и поездов',
     'вернуться в корневое меню'
   ].freeze
 
   WAGON_MENU_LIST = [
     'создать новый вагон',
-    'посмотреть производителей вагонов',
+    #'посмотреть производителей вагонов',
     'вернуться в корневое меню'
   ].freeze
 
   WAGON_ADD_UNHOOK_MENU_LIST = [
     'добавить вагон',
-    'отцепить вагон'
-  ].freeze
-
-  MOVE_TRAIN_MENU_LIST = [
-    'отправить на следующую станцию',
-    'отправить на предыдущую станцию',
-    'вернуться к управлению поездами'
+    'отцепить вагон',
+    'вернуться в корневое меню'
   ].freeze
 
   CREATE_WAGON_MENU_LIST = [
@@ -55,10 +50,25 @@ module MenuItems
     'вернуться в корневое меню'
   ].freeze
 
+  ROUTE_MENU_LIST = [
+    'создать маршрут',
+    'добавить станцию в маршрут',
+    'удалить станцию из маршрута',
+    'переместить поезд по маршруту',
+    'список маршрутов',
+    'вернуться в корневое меню'
+  ].freeze
+
+  MOVE_TRAIN_MENU_LIST = [
+      'отправить на следующую станцию',
+      'отправить на предыдущую станцию',
+      'вернуться к управлению поездами'
+  ].freeze
+
   YES_NO = [
-      'Да',
-      'Нет',
-      'вернуться в корневое меню'
+    'Да',
+    'Нет',
+    'вернуться в корневое меню'
   ].freeze
 
   #YES_NO = %w[да нет].freeze
@@ -68,14 +78,16 @@ module MenuItems
   INPUT_NAME_STATION_MESSAGE = 'Введите название новой станции: '.freeze
   STATION_EXISTS_MESSAGE = 'Такая станция существует, введите другое значение: '.freeze
   STATIONS_LIST_MESSAGE = 'Список станций: '.freeze
+  ROUTE_LIST_MESSAGE = 'Список маршрутов: '.freeze
+  TRAIN_LIST_MESSAGE = 'Список поездов: '.freeze
   ENTER_CORRECTION_NAME_STATION_MESSAGE = 'Введите правильное имя станции и повторите попытку.'.freeze
   ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE = 'Введите правильный номер поезда и повторите попытку.'.freeze
-  ENTER_NAME_NEW_TRAIN_MESSAGE = 'Введите номер нового поезда: '.freeze
-  ENTER_ANOTHER_NUMBER_MESSAGE = 'Такой номер существует, введите другое значение: '.freeze
+  ENTER_NAME_NEW_TRAIN_MESSAGE = 'Введите наименование нового поезда: '.freeze
+  ENTER_ANOTHER_NUMBER_MESSAGE = 'Такое наименование существует, введите другое значение: '.freeze
   ENTER_ANOTHER_VALUE = 'Введите другое значение: '.freeze
   ENTER_NAME_STATION = 'Введите название станции: '.freeze
-  ENTER_NAME_FIRST_STATION = 'Введите имя первой станции: '.freeze
-  ENTER_NAME_SECOND_STATION = 'Введите имя второй станции: '.freeze
+  ENTER_ID_FIRST_STATION = 'Введите номер первой станции: '.freeze
+  ENTER_ID_SECOND_STATION = 'Введите номер второй станции: '.freeze
   BACK_TO_TRAIN_MANAGEMENT_MESSAGE = 'вернуться к управлению поездами'.freeze
   LIST_OF_TRAINS_MESSAGE = 'Общий список поездов:'.freeze
   FOLLOWING_STATIONS_ROUTE_MESSAGE = 'Для составления маршрута доступны следующие станции:'.freeze
@@ -86,6 +98,8 @@ module MenuItems
   STATION_STRING = 'Станция '.freeze
   STATION_MANAGEMENT = 'Управление станциями:'.freeze
   TRAIN_MANAGEMENT = 'Управление станциями:'.freeze
+
+  SELECT_NUMBER = 'Выберите номер :'.freeze
 
   ENTER_NAME_MANUFACTURER = 'Введите название производителя: '.freeze
   ENTER_NUMBER_WAGON_TRAIN = 'Введите номер вагона поезда: '.freeze
@@ -121,11 +135,7 @@ module MenuItems
   end
 
   def create_route_intro
-    puts FOLLOWING_STATIONS_ROUTE_MESSAGE # 'Для составления маршрута доступны следующие станции:'
-    stations_list
-    puts CREATE_STATIONS_OR_CURRENT_MESSAGE # 'Вы хотите создать новую cтанцию или продолжить с текущими?'
-    #choices_list('создать новую станцию', 'продолжить с текущими', false)
-    choices_list(CREATE_NEW_STATION_OR_CURRENT, false)
+    choices_list(ROUTE_MENU_LIST, false)
   end
 
   def stations_menu_intro
@@ -146,10 +156,10 @@ module MenuItems
     puts ENTER_NUMBER_WAGON_TRAIN # 'Введите номер вагона поезда: '
   end
 
-  def select_train_from_list_message
-    puts ENTER_NUMBER_WAGON_FROM_LIST # 'Введите номер поезда из списка:'
-    trains_list
-  end
+  # def select_train_from_list_message
+  #   puts ENTER_NUMBER_WAGON_FROM_LIST # 'Введите номер поезда из списка:'
+  #   trains_list
+  # end
 
   def train_created_message(number)
     blank_line
@@ -159,5 +169,10 @@ module MenuItems
   def station_created_message(name)
     blank_line
     puts "Станция #{name} успешно создана."
+  end
+
+  def route_created_message()
+    blank_line
+    puts "Маршрут успешно создан."
   end
 end
