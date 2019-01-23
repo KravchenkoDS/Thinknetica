@@ -31,7 +31,7 @@ class Train
   def remove_wagon(remove_wagon)
     # Удаление только из массива @wagons для поезда, вагон продолжает существовать
     # в массиве с аналогичном названием в MainMenu.
-    @wagons.reject! { |wagon| wagon.number == remove_wagon }
+    @wagons.delete(remove_wagon)
   end
 
   def set_route(route)

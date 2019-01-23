@@ -57,9 +57,11 @@ class MainMenu
       choices_list(TRAINS_MENU_LIST, true)
       case gets.to_i
       when 1 then create_train
-      when 2 then wagons_menu_for_train
-      when 3 then stations_and_trains
-      when 4 then break
+      when 2 then set_train_route
+      when 3 then wagons_menu_for_train
+      when 4 then stations_and_trains
+      when 5 then move_train_menu
+      when 6 then break
       when EXIT then exit
       else enter_another_value
       end
@@ -74,9 +76,8 @@ class MainMenu
       when 1 then create_route
       when 2 then add_route_station
       when 3 then delete_route_station
-      when 4 then move_train_menu
-      when 5 then routes_list
-      when 6 then break
+      when 4 then routes_list
+      when 5 then break
       when EXIT then exit
       else enter_another_value
       end
@@ -98,12 +99,12 @@ class MainMenu
 
   # Для вызова из меню поездов
   def wagons_menu_for_train
+    train = select_train
     loop do
       if @trains.empty? then
         puts CREATE_TRAIN_MESSAGE
         break
       end
-      train = select_train
       choices_list(WAGON_ADD_UNHOOK_MENU_LIST, BACK_TO_TRAIN_MANAGEMENT_MESSAGE)
       case gets.to_i
       when 1
@@ -112,12 +113,12 @@ class MainMenu
         wagon = create_wagon_for_train(train, number)
         train.add_wagon(wagon)
         add_wagon(wagon)
-        trains_menu
       when 2
         enter_number_wagon_message
         print_wagons_in_train(train)
         wagon = select_from_list(train.wagons)
         train.remove_wagon(wagon)
+        print_wagons_in_train(train)
       when 3
         break
       else
@@ -133,8 +134,8 @@ class MainMenu
       case gets.to_i
       when 1 then train.move_to_next_station
       when 2 then train.move_to_previous_station
-      when 3 then trains_menu
-      when 4 then exit
+      #when 3 then trains_menu
+      when 3 then exit
       else enter_another_value
       end
     end
@@ -194,14 +195,14 @@ class MainMenu
     !!@trains.detect {|train| train.name == name}
   end
 
-  def select_train()
+  def select_train
     puts TRAIN_LIST_MESSAGE
     trains_list
     selected_trains = select_from_list(@trains)
-    if selected_trains.empty?
+    if selected_trains.to_s.empty?
       puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE # 'Введите правильный номер поезда и повторите попытку.'
     else
-      selected_trains.first
+      return selected_trains
     end
   end
 
@@ -211,16 +212,14 @@ class MainMenu
   end
 
   def trains_list
-    numbers = []
-    @trains.each do |train|
-      numbers << "Поезд номер #{@trains.index(train)} : #{train.name}"
+    @trains.each_with_index do |train, index|
+      puts "#{index} - Наименование поезда - #{train.name}"
     end
-    puts numbers.join(', ')
   end
 
   def stations_list
-    @stations.each do |station|
-      puts "Номер #{@stations.index(station)} : Наименование станции - #{station.name}"
+    @stations.each_with_index do |stations, index|
+      puts "#{index} - Наименование станции - #{stations.name}"
     end
     blank_line
   end
@@ -252,14 +251,14 @@ class MainMenu
   end
 
   def print_stations_in_route(route)
-    route.stations.each do |stations|
-      puts "Номер станции #{route.stations.index(stations)} : Наименование станции - #{stations.name}"
+    route.stations.each_with_index do |stations, index|
+      puts "#{index} - Наименование станции - #{stations.name}"
     end
   end
 
   def print_wagons_in_train(train)
-    train.wagons.each do |wagons|
-      puts "Номер вагона #{train.wagons.index(wagons)}"
+    train.wagons.each_with_index do |wagon, index|
+      puts "#{index} - Номер вагона #{wagon.number}"
     end
   end
 
@@ -274,7 +273,6 @@ class MainMenu
   def create_route
     if @stations.empty?
       print CREATE_STATIONS_MESSAGE
-      return
     else
       puts STATIONS_LIST_MESSAGE # 'Список станций: '
       stations_list
@@ -307,7 +305,7 @@ class MainMenu
     puts STATIONS_LIST_MESSAGE
     print_stations_in_route(route)
     station = select_from_list(@stations)
-    @stations.delete_station(station)
+    route.delete_station(station)
   end
 
   def add_route_station
@@ -323,6 +321,7 @@ class MainMenu
 
   def select_from_list(array)
     puts SELECT_NUMBER
-    return array[gets.to_i]
+    number = gets.to_i
+    array[number]
   end
 end
