@@ -59,8 +59,8 @@ class MainMenu
       when 1 then create_train
       when 2 then set_train_route
       when 3 then wagons_menu_for_train
-      when 4 then stations_and_trains
-      when 5 then move_train_menu
+      when 4 then move_train_menu
+      when 5 then stations_and_trains
       when 6 then break
       when EXIT then exit
       else enter_another_value
@@ -134,8 +134,7 @@ class MainMenu
       case gets.to_i
       when 1 then train.move_to_next_station
       when 2 then train.move_to_previous_station
-      #when 3 then trains_menu
-      when 3 then exit
+      when 3 then break
       else enter_another_value
       end
     end
@@ -198,11 +197,11 @@ class MainMenu
   def select_train
     puts TRAIN_LIST_MESSAGE
     trains_list
-    selected_trains = select_from_list(@trains)
-    if selected_trains.to_s.empty?
+    selected_train = select_from_list(@trains)
+    if selected_train.to_s.empty?
       puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE # 'Введите правильный номер поезда и повторите попытку.'
     else
-      return selected_trains
+      return selected_train
     end
   end
 
