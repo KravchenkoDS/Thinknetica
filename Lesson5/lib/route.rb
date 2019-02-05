@@ -1,3 +1,5 @@
+require_relative '../lib/instance_counter'
+
 class Route
   include InstanceCounter
 
