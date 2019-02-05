@@ -1,3 +1,5 @@
+require_relative '../lib/instance_counter'
+
 class Station
   include InstanceCounter
 
@@ -9,6 +11,7 @@ class Station
     @name = name
     @trains = []
     @@stations << self
+    register_instance
   end
 
   def self.all

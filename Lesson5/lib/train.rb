@@ -1,4 +1,4 @@
-require_relative '../lib/InstanceCounter'
+require_relative '../lib/instance_counter'
 require_relative '../lib/manufacturer'
 
 class Train
@@ -13,6 +13,8 @@ class Train
     @type = type
     @speed = 0
     @wagons = []
+    @@trains[number] = self
+    register_instance
   end
 
   def self.all
