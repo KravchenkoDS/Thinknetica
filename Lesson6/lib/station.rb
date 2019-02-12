@@ -5,6 +5,8 @@ class Station
 
   attr_reader :trains, :name
 
+  EMPTY_NAME_ERROR ='Введено пустое имя'
+
   @@stations = []
 
   def initialize(name)
@@ -28,5 +30,16 @@ class Station
 
   def select_trains(type)
     trains.select{ |train| train.type == type }
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+  def validate!
+    raise EMPTY_NAME_ERROR if @name.nil?
   end
 end

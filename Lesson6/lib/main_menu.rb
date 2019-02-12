@@ -142,8 +142,9 @@ class MainMenu
 
   # Вспомогательные методы для станций:
   def create_station
-    print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
     loop do
+      begin
+      print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
       name = gets.chomp
       if station_exist?(name)
         print STATION_EXISTS_MESSAGE # 'Такая станция существует, введите другое значение: '
@@ -151,6 +152,10 @@ class MainMenu
         @stations << Station.new(name)
         station_created_message(name)
         break
+      end
+      rescue RuntimeError => e
+        puts e.message
+        retry
       end
     end
   end
@@ -161,15 +166,20 @@ class MainMenu
 
   # Вспомогательные методы для поездов:
   def create_train
-    print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
     loop do
-      name = gets.chomp
-      if train_exist?(name)
-        print ENTER_ANOTHER_NUMBER_MESSAGE # Такое наименование существует, введите другое значение: '
-      else
-        create_train_by_type(name)
-        train_created_message(name)
-        break
+      begin
+        print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
+        name = gets.chomp
+        if train_exist?(name)
+          print ENTER_ANOTHER_NUMBER_MESSAGE # Такое наименование существует, введите другое значение: '
+        else
+          create_train_by_type(name)
+          train_created_message(name)
+          break
+        end
+      rescue RuntimeError => e
+        puts e.message
+        retry
       end
     end
   end
@@ -273,6 +283,7 @@ class MainMenu
     if @stations.empty?
       print CREATE_STATIONS_MESSAGE
     else
+      begin
       puts STATIONS_LIST_MESSAGE # 'Список станций: '
       stations_list
       print ENTER_ID_FIRST_STATION # 'Введите номер первой станции: '
@@ -283,6 +294,10 @@ class MainMenu
       return show_error if first_station == last_station
       @routes << Route.new(first_station, last_station)
       route_created_message
+      rescue RuntimeError => e
+        puts e.message
+        retry
+      end
     end
   end
 

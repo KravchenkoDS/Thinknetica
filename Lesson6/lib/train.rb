@@ -6,6 +6,10 @@ class Train
   include InstanceCounter
   attr_reader :type, :speed, :route, :wagons, :number
 
+  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i
+  FORMAT_NUMBER__ERROR = 'Неверный формат номера'
+  EMPTY_NUMBER_ERROR = 'Введен пустой номер'
+
   @@trains = {}
 
   def initialize(number, type)
@@ -13,6 +17,7 @@ class Train
     @type = type
     @speed = 0
     @wagons = []
+    validate!
     @@trains[number] = self
     register_instance
   end
@@ -90,5 +95,17 @@ class Train
 
   def next_station
     route.stations[@current_station_index + 1]
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+  def validate!
+    raise EMPTY_NUMBER_ERROR if @number.nil?
+    raise FORMAT_NUMBER__ERROR if @number !~ FORMAT_NUMBER
   end
 end
