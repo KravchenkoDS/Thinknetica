@@ -10,6 +10,7 @@ class Route
 
   def initialize(first_station, last_station)
     @stations = [first_station, last_station]
+    validate!
     register_instance
   end
 

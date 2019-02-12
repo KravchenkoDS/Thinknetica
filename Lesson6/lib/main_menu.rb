@@ -142,8 +142,7 @@ class MainMenu
 
   # Вспомогательные методы для станций:
   def create_station
-    loop do
-      begin
+    begin
       print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
       name = gets.chomp
       if station_exist?(name)
@@ -153,10 +152,9 @@ class MainMenu
         station_created_message(name)
         break
       end
-      rescue RuntimeError => e
-        puts e.message
-        retry
-      end
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
   end
 
@@ -166,21 +164,19 @@ class MainMenu
 
   # Вспомогательные методы для поездов:
   def create_train
-    loop do
-      begin
-        print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
-        name = gets.chomp
-        if train_exist?(name)
-          print ENTER_ANOTHER_NUMBER_MESSAGE # Такое наименование существует, введите другое значение: '
-        else
-          create_train_by_type(name)
-          train_created_message(name)
-          break
-        end
-      rescue RuntimeError => e
-        puts e.message
-        retry
+    begin
+      print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
+      name = gets.chomp
+      if train_exist?(name)
+        print ENTER_ANOTHER_NUMBER_MESSAGE # Такое наименование существует, введите другое значение: '
+      else
+        create_train_by_type(name)
+        train_created_message(name)
+        break
       end
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
   end
 
@@ -284,16 +280,16 @@ class MainMenu
       print CREATE_STATIONS_MESSAGE
     else
       begin
-      puts STATIONS_LIST_MESSAGE # 'Список станций: '
-      stations_list
-      print ENTER_ID_FIRST_STATION # 'Введите номер первой станции: '
-      first_station = select_from_list(@stations)
-      print ENTER_ID_SECOND_STATION # 'Введите номер второй станции: '
-      last_station = select_from_list(@stations)
-      return show_error if first_station.nil? || last_station.nil?
-      return show_error if first_station == last_station
-      @routes << Route.new(first_station, last_station)
-      route_created_message
+        puts STATIONS_LIST_MESSAGE # 'Список станций: '
+        stations_list
+        print ENTER_ID_FIRST_STATION # 'Введите номер первой станции: '
+        first_station = select_from_list(@stations)
+        print ENTER_ID_SECOND_STATION # 'Введите номер второй станции: '
+        last_station = select_from_list(@stations)
+        return show_error if first_station.nil? || last_station.nil?
+        return show_error if first_station == last_station
+        @routes << Route.new(first_station, last_station)
+        route_created_message
       rescue RuntimeError => e
         puts e.message
         retry
