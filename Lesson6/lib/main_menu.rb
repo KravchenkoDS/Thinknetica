@@ -141,6 +141,7 @@ class MainMenu
   end
 
   # Вспомогательные методы для станций:
+=begin
   def create_station
     begin
       print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
@@ -157,12 +158,25 @@ class MainMenu
       retry
     end
   end
+=end
+
+  def create_station
+    print INPUT_NAME_STATION_MESSAGE # 'Введите название новой станции: '
+    name = gets.chomp
+    return print STATION_EXISTS_MESSAGE if station_exist?(name)
+    @stations << Station.new(name)
+    station_created_message(name)
+  rescue RuntimeError => e
+    puts e.message
+    retry
+  end
 
   def station_exist?(name)
     !!@stations.detect {|station| station.name == name}
   end
 
   # Вспомогательные методы для поездов:
+=begin
   def create_train
     begin
       print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
@@ -178,6 +192,19 @@ class MainMenu
       puts e.message
       retry
     end
+  end
+=end
+
+  def create_train
+    print ENTER_NAME_NEW_TRAIN_MESSAGE # 'Введите наименование нового поезда: '
+    number = gets.chomp
+    #return print ENTER_ANOTHER_NUMBER_MESSAGE if train_exist?(name)
+    return print ENTER_ANOTHER_NUMBER_MESSAGE if train_exist?(number)
+    create_train_by_type(name)
+    train_created_message(name)
+  rescue RuntimeError => e
+    puts e.message
+    retry
   end
 
   def create_train_by_type(name)
@@ -196,8 +223,13 @@ class MainMenu
     end
   end
 
+=begin
   def train_exist?(name)
     !!@trains.detect {|train| train.name == name}
+  end
+=end
+  def train_exist?(number)
+    !!@trains.detect {|train| train.number == number}
   end
 
   def select_train
