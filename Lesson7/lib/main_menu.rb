@@ -349,26 +349,10 @@ class MainMenu
     route.add_station(station) #добавляем
   end
 
-  # def select_from_list(trains)
-  #   puts SELECT_NUMBER
-  #   number = gets.chomp
-  #   selected_train = trains.detect { |train| train.number == number }
-  #   if selected_train.nil?
-  #     puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE
-  #   else
-  #     selected_train
-  #   end
-  # end
-
   def select_from_list(array)
-    begin
-      puts SELECT_NUMBER
-      number = gets.to_i
-      array[number]
-    rescue RuntimeError => e
-      puts e.message
-      retry
-    end
+    puts SELECT_NUMBER
+    number = gets.to_i
+    array[number]
   end
 
   def manage_wagons_menu(wagons)
@@ -417,17 +401,16 @@ class MainMenu
   end
 
   def user_taken_seats_volume(wagon)
-    begin
-      volume = 0
-      if wagon.type == :cargo
-        puts ENTER_WAGON_VOLUME
-        volume = gets.to_i
-      end
-      wagon.type == :cargo ? wagon.reserve_space(volume) : wagon.reserve_space
-    rescue RuntimeError => e
-      puts e.message
-      retry
+    if wagon.is_a?(CargoWagon)
+      puts ENTER_WAGON_VOLUME
+      volume = gets.to_i
+      wagon.reserve_space(volume)
+    else
+      wagon.reserve_space
     end
+  rescue RuntimeError => e
+    puts e.message
+    retry
   end
 
   def successfully_taken(wagon)
