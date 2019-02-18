@@ -195,7 +195,7 @@ class MainMenu
     puts TRAIN_LIST_MESSAGE
     trains_list
     selected_train = select_from_list(@trains)
-    if selected_train.to_s.empty?
+    if selected_train.nil?
       puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE # 'Введите правильный номер поезда и повторите попытку.'
     else
       return selected_train
@@ -349,14 +349,25 @@ class MainMenu
     route.add_station(station) #добавляем
   end
 
-  def select_from_list(trains)
-    puts SELECT_NUMBER
-    number = gets.chomp
-    selected_train = trains.detect { |train| train.number == number }
-    if selected_train.nil?
-      puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE
-    else
-      selected_train
+  # def select_from_list(trains)
+  #   puts SELECT_NUMBER
+  #   number = gets.chomp
+  #   selected_train = trains.detect { |train| train.number == number }
+  #   if selected_train.nil?
+  #     puts ENTER_CORRECTION_NUMBER_TRAIN_MESSAGE
+  #   else
+  #     selected_train
+  #   end
+  # end
+
+  def select_from_list(array)
+    begin
+      puts SELECT_NUMBER
+      number = gets.to_i
+      array[number]
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
   end
 
@@ -388,25 +399,14 @@ class MainMenu
 
   def manage_wagon(wagon)
     wagon_info(wagon)
-    choices_list(RESERVE_SPACE, true )
+    choices_list(RESERVE_SPACE, true)
     loop do
       input = gets.to_i
       case input
       when 1
-        if wagon.type == :cargo
-          puts ENTER_WAGON_VOLUME
-          volume = gets.chomp
-        else
-          puts ENTER_WAGON_SEATS
-          volume = gets.chomp
-        end
-        begin
-          wagon.type == :cargo ? wagon.reserve_space(volume) : wagon.reserve_space
-        rescue RuntimeError => e
-          puts e.message
-          break
-        end
-        puts wagon.type == :cargo ? VOLUME_SUCCESSFULLY_TAKEN : SEAT_SUCCESSFULLY_TAKEN
+        user_taken_seats_volume(wagon)
+        #Сообщение об успешной брони
+        successfully_taken(wagon)
         break
       when 2
         break
@@ -414,5 +414,23 @@ class MainMenu
         input = enter_another_value
       end
     end
+  end
+
+  def user_taken_seats_volume(wagon)
+    begin
+      volume = 0
+      if wagon.type == :cargo
+        puts ENTER_WAGON_VOLUME
+        volume = gets.to_i
+      end
+      wagon.type == :cargo ? wagon.reserve_space(volume) : wagon.reserve_space
+    rescue RuntimeError => e
+      puts e.message
+      retry
+    end
+  end
+
+  def successfully_taken(wagon)
+    puts wagon.type == :cargo ? VOLUME_SUCCESSFULLY_TAKEN : SEAT_SUCCESSFULLY_TAKEN
   end
 end

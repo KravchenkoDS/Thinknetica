@@ -34,8 +34,8 @@ module MenuItems
   ].freeze
 
   RESERVE_SPACE = [
-      "забронировать место",
-      "завершить бронирование"
+    'забронировать место',
+    'завершить бронирование'
   ].freeze
 
   CREATE_WAGON_MENU_LIST = [
@@ -62,9 +62,9 @@ module MenuItems
   ].freeze
 
   MOVE_TRAIN_MENU_LIST = [
-      'отправить на следующую станцию',
-      'отправить на предыдущую станцию',
-      'вернуться в корневое меню'
+    'отправить на следующую станцию',
+    'отправить на предыдущую станцию',
+    'вернуться в корневое меню'
   ].freeze
 
   YES_NO = [
@@ -110,13 +110,13 @@ module MenuItems
   EXIT = 0
   EXIT.freeze
 
-  ENTER_WAGON_VOLUME = "Введите объём вагона:".freeze
-  ENTER_WAGON_SEATS = "Введите количество пассажирских мест".freeze
+  ENTER_WAGON_VOLUME = 'Введите объём вагона:'.freeze
+  ENTER_WAGON_SEATS = 'Введите количество пассажирских мест'.freeze
 
-  SEAT_SUCCESSFULLY_TAKEN = "Бронирование места прошло успешно.".freeze
-  VOLUME_SUCCESSFULLY_TAKEN = "Объём успешно забронирован.".freeze
+  SEAT_SUCCESSFULLY_TAKEN = 'Бронирование места прошло успешно.'.freeze
+  VOLUME_SUCCESSFULLY_TAKEN = 'Объём успешно забронирован.'.freeze
 
-# Прочие вспомогательные методы:
+  # Прочие вспомогательные методы:
   def choices_list(*options, extra_lines)
     puts 'Введите:'
     number = 1
@@ -135,7 +135,7 @@ module MenuItems
     puts ''
   end
 
-# Вспомогательные методы инпута и аутпута
+  # Вспомогательные методы инпута и аутпута
   def enter_another_value
     print ENTER_ANOTHER_VALUE # 'Введите другое значение: '
   end
@@ -172,16 +172,16 @@ module MenuItems
     puts "Станция #{name} успешно создана."
   end
 
-  def route_created_message()
+  def route_created_message
     blank_line
-    puts "Маршрут успешно создан."
+    puts 'Маршрут успешно создан.'
   end
 
   def space_type(type)
     if type == :cargo
-      { available_space: "свободного объёма", reserved_space: "занятого объёма" }
+      { available_space: 'свободного объёма', reserved_space: 'занятого объёма' }
     else
-      { available_space: "свободных мест", reserved_space: "занятых мест" }
+      { available_space: 'свободных мест', reserved_space: 'занятых мест' }
     end
   end
 end
