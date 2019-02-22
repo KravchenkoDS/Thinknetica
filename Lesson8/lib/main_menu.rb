@@ -1,11 +1,11 @@
-require_relative 'common/menu_items.rb'
+require_relative '../lib/common/menu_items'
 require_relative 'common/common'
-require_relative 'common/print_objects'
+require_relative 'common/message_module'
 require_relative 'other_menu/stations_menu'
 require_relative 'other_menu/route_menu'
 require_relative 'other_menu/trains_menu'
 require_relative 'other_menu/wagon_menu'
-require_relative 'common/message_module'
+require_relative 'common/print_objects'
 
 class MainMenu
   include MenuItems
