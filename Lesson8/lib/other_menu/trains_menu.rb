@@ -1,10 +1,19 @@
 require_relative '../common/common'
-require_relative '../description_objects/train.rb'
-require_relative '../description_objects/passenger_train.rb'
-require_relative '../description_objects/cargo_train.rb'
+require_relative '../models/train.rb'
+require_relative '../models/passenger_train.rb'
+require_relative '../models/cargo_train.rb'
+require_relative '../common/message_module'
 
 module TrainsMenu
   include Common
+  include MessageModule
+
+  CREATE_TRAIN_MESSAGE = 'Сначало создайте поезд.'.freeze
+  ENTER_NAME_NEW_TRAIN_MESSAGE = 'Введите наименование нового поезда: '.freeze
+  TRAIN_LIST_MESSAGE = 'Список поездов: '.freeze
+  ENTER_CORRECTION_NUMBER_TRAIN = 'Введите правильный номер поезда и повторите попытку.'.freeze
+  ENTER_ANOTHER_NUMBER_MESSAGE = 'Такое наименование существует, введите другое значение: '.freeze
+  LIST_OF_TRAINS_MESSAGE = 'Общий список поездов:'.freeze
 
   def trains_menu
     loop do
@@ -76,14 +85,12 @@ module TrainsMenu
     retry
   end
 
-  def stations_and_trains
-    puts STATIONS_LIST_MESSAGE # 'Список станций: '
-    print_stations_and_trains
-    puts LIST_OF_TRAINS_MESSAGE # 'Общий список поездов:'
-    trains_list
+  def train_exist?(number)
+    !!@trains.detect { |train| train.number == number }
   end
 
-  def check_train
-    puts CREATE_TRAIN_MESSAGE if @trains.empty?
+  def train_created_message(number)
+    blank_line
+    puts "Поезд #{number} успешно создан."
   end
 end

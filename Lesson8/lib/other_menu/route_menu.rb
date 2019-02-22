@@ -1,8 +1,13 @@
 require_relative '../common/common'
-require_relative '../description_objects/route.rb'
+require_relative '../models/route.rb'
+require_relative '../common/message_module'
 
 module RouteMenu
   include Common
+  include MessageModule
+
+  CREATE_STATIONS_MESSAGE = 'Сначало создайте как минимум две станции.'.freeze
+  STATIONS_LIST_MESSAGE = 'Список станций: '.freeze
 
   def route_menu
     loop do
@@ -49,5 +54,20 @@ module RouteMenu
     return show_error if route.nil? || station.nil?
 
     route.add_station(station) # добавляем
+  end
+
+  def print_stations_in_route(route)
+    route.stations.each_with_index do |stations, index|
+      puts "#{index} - Наименование станции - #{stations.name}"
+    end
+  end
+
+  def create_route_intro
+    choices_list(ROUTE_MENU_LIST, false)
+  end
+
+  def route_created_message
+    blank_line
+    puts 'Маршрут успешно создан.'
   end
 end
