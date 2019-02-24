@@ -6,6 +6,14 @@ module RouteMenu
   include Common
   include MessageModule
 
+  ROUTE_MENU_LIST = [
+    'создать маршрут',
+    'добавить станцию в маршрут',
+    'удалить станцию из маршрута',
+    'список маршрутов',
+    'любое значение для возврата в корневое меню'
+  ].freeze
+
   CREATE_STATIONS_MESSAGE = 'Сначало создайте как минимум две станции.'.freeze
   STATIONS_LIST_MESSAGE = 'Список станций: '.freeze
 

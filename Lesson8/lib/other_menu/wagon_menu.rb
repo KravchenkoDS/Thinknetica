@@ -10,6 +10,13 @@ module WagonMenu
   include MessageModule
   include ManageWagon
 
+  WAGON_ADD_UNHOOK_MENU_LIST = [
+    'добавить вагон',
+    'отцепить вагон',
+    'список вагонов',
+    'любое значение для возврата в корневое меню'
+  ].freeze
+
   ENTER_WAGON_VOLUME = 'Введите объём вагона:'.freeze
   ENTER_WAGON_SEATS = 'Введите количество пассажирских мест'.freeze
   ENTER_NUMBER_WAGON_TRAIN = 'Введите номер вагона поезда: '.freeze

@@ -1,9 +1,7 @@
-require_relative 'menu_items'
 require_relative 'print_objects'
 require_relative 'message_module'
 
 module Common
-  include MenuItems
   include PrintObjects
   include MessageModule
 

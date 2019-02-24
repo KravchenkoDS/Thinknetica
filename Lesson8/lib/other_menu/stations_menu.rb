@@ -6,6 +6,12 @@ module StationsMenu
   include Common
   include MessageModule
 
+  STATIONS_MENU_LIST = [
+    'создание станции',
+    'список станций',
+    'любое значение для возврата в корневое меню'
+  ].freeze
+
   INPUT_NAME_STATION_MESSAGE = 'Введите название новой станции: '.freeze
   STATION_EXISTS_MESSAGE = 'Такая станция существует, введите другое значение: '.freeze
   ENTER_ID_FIRST_STATION = 'Введите номер первой станции: '.freeze

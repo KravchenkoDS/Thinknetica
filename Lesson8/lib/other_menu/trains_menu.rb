@@ -8,6 +8,24 @@ module TrainsMenu
   include Common
   include MessageModule
 
+  TRAINS_MENU_LIST = [
+    'создать новый поезд',
+    'назначить маршрут поезду',
+    'управление вагонами',
+    'переместить поезд по маршруту',
+    'любое значение для возврата в корневое меню'
+  ].freeze
+
+  MOVE_TRAIN_MENU_LIST = [
+    'отправить на следующую станцию',
+    'отправить на предыдущую станцию',
+    'любое значение для возврата в корневое меню'
+  ].freeze
+
+  CREATE_TRAIN_BY_TYPE_MENU_LIST = [
+    'пассажирский поезд', 'грузовой поезд'
+  ].freeze
+
   CREATE_TRAIN_MESSAGE = 'Сначало создайте поезд.'.freeze
   ENTER_NAME_NEW_TRAIN_MESSAGE = 'Введите наименование нового поезда: '.freeze
   TRAIN_LIST_MESSAGE = 'Список поездов: '.freeze

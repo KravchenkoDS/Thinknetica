@@ -8,6 +8,11 @@ module ManageWagon
   include Common
   include MessageModule
 
+  RESERVE_SPACE = [
+    'забронировать место',
+    'завершить бронирование'
+  ].freeze
+
   SEAT_SUCCESSFULLY_TAKEN = 'Бронирование места прошло успешно.'.freeze
   VOLUME_SUCCESSFULLY_TAKEN = 'Объём успешно забронирован.'.freeze
 

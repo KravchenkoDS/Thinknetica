@@ -1,4 +1,3 @@
-require_relative '../lib/common/menu_items'
 require_relative 'common/common'
 require_relative 'common/message_module'
 require_relative 'other_menu/stations_menu'
@@ -8,7 +7,6 @@ require_relative 'other_menu/wagon_menu'
 require_relative 'common/print_objects'
 
 class MainMenu
-  include MenuItems
   include Common
   include MessageModule
   include PrintObjects
@@ -16,6 +14,13 @@ class MainMenu
   include RouteMenu
   include TrainsMenu
   include WagonMenu
+
+  SHOW_MENU_LIST = [
+    'управление станциями',
+    'управление поездами',
+    'управление маршрутами',
+    'резервировать место в вагоне'
+  ].freeze
 
   def initialize
     @stations = []
