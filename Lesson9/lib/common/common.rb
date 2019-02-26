@@ -5,8 +5,6 @@ module Common
   include PrintObjects
   include MessageModule
 
-  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i.freeze
-
   def select_from_list(array)
     puts SELECT_NUMBER
     number = gets.to_i

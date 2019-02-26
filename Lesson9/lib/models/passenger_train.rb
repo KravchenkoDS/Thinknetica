@@ -1,8 +1,8 @@
-require_relative '../common/common'
 class PassengerTrain < Train
-  include Common
   attr_reader :type
   attr_accessor_with_history :route
+
+  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i.freeze
 
   validate :number, :presence
   validate :number, :format, FORMAT_NUMBER

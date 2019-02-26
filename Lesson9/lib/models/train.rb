@@ -11,11 +11,12 @@ class Train
   include Validation
   include Common
   attr_reader :type, :speed, :route, :wagons, :number
+  strong_attr_accessor :number, String
 
-  FORMAT_NUMBER__ERROR = 'Неверный формат номера'.freeze
-  EMPTY_NUMBER_ERROR = 'Введен пустой номер'.freeze
+  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i.freeze
 
-  strong_attr_accessor :number, FORMAT_NUMBER
+  validate :name, :presence
+  validate :name, :format, FORMAT_NUMBER
 
   @@trains = {}
 

@@ -10,6 +10,8 @@ class Station
   include Common
   attr_reader :trains, :name
 
+  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i.freeze
+
   validate :name, :presence
   validate :name, :format, FORMAT_NUMBER
 

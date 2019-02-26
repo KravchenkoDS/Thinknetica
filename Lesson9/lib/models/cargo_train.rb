@@ -1,7 +1,7 @@
-require_relative '../common/common'
 class CargoTrain < Train
-  include Common
   attr_reader :type
+
+  FORMAT_NUMBER = /^[a-zа-я\d]{3}[-]?[a-zа-я\d]{2}$/i.freeze
 
   validate :number, :presence
   validate :number, :format, FORMAT_NUMBER
